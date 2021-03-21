@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+body {
+  overflow-x: hidden !important;
+  width: 100%;
+}
+
+header {
+  height: 100vh;
+  background-image: url(img/new.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+header button#sign {
+  color: white;
+  background-color: red;
+  border: none;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+}
+
+header div#info {
+  padding: 3rem;
+  display: grid;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+header div#info input::placeholder {
+  padding-left: 17px;
+}
+
+header div#info h3 {
+  font-weight: bolder;
+  padding: 3rem !important;
+  padding-top: 3em !important;
+}
+
+header div#info input {
+  margin-top: -3rem;
+}
+
+header div#info a {
+  margin-top: -1rem;
+}
+
+main#boxes {
+  padding: 3rem !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  grid-gap: 2rem !important;
+  width: 100%;
+}
+
+main#each {
+  padding: 5rem;
+  width: 600px;
+  height: 600px;
+}
+
+main#each img {
+  padding: 3rem;
+  width: 100%  !important;
+  display: grid !important;
+  margin: auto !important;
+}
+
+@media (max-width: 280px) {
+  body {
+    margin-left: 5rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  body {
+    margin-left: .3rem;
+  }
+  section#showcase h4 {
+    font-size: 24px;
+  }
+  section#showcase button {
+    width: 100px !important;
+  }
+  div#info h3 {
+    font-size: 25px;
+  }
+  main#boxes {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-gap: 2rem !important;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+/*# sourceMappingURL=style.css.map */

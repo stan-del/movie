@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+      <script src="https://kit.fontawesome.com/b53dd73d70.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="style.css">
+      <!--Let browser know website is optimized for mobile-->
+      <link rel="shortcut icon" href="img/stan.jpg">
+      <meta name="viewport" content="width=device-width, user-scalable=no">
+      <title>Movie Api</title>
+    </head>
+
+<body class="grey darken-4 ">
+
+  <section id="showcase">  
+    <br>
+    <h4  id="h4" style=" text-transform: uppercase; font-weight: bolder; margin-bottom: -1.4rem;" class="white-text center-align">Search for any movie</h4 style="font-weight: bolder; border-bottom: -2rem;">
+
+      
+  <section id="parent" style="margin-top: 2rem;"  class="container center-align">
+    <input placeholder="Enter movie or tv show"  style="background: white; margin-bottom: -1.4rem; margin-top: 1rem; width: 60%;" type="text"  id="input">
+ 
+  <button style="display: grid;margin: auto; margin-top: 1rem;" class="btn red" id="btn">submit</button>
+ 
+</section>
+
+
+ 
+
+  <main id="boxes" class="contaner" >
+    
+  </main>
+
+  
+
+  
+
+
+
+
+          <main id="each" class="container" style="margin-top: -6rem;">
+          </main>
+
+    
+
+
+<!--end of showcase -->
+</section>
+
+
+ <!--Import jQuery before materialize.js-->
+ <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+
+
+    <script>
+
+disableScroll();
+
+      //DOM
+      var showcase = document.getElementById('showcase');
+      var parent = document.getElementById('parent');
+      var search = document.getElementById('input');
+      var btn = document.getElementById('btn');
+      var results = document.getElementById('boxes');
+     
+
+      //event listener for click 
+
+      btn.addEventListener('click', e=>{
+      e.preventDefault();
+
+    load();
+
+      if(!search.value){
+        msg('Please Enter input value!', 'red lighten-1 white-text center-align')
+      } else{
+        Get();
+      }
+
+
+search.value = ''
+
+    })
+
+
+    //create function for form validation
+
+    function msg(message, classname){
+      var div = document.createElement('div');
+      div.append(message);
+      div.className = classname;
+      //div.style.padding = '1rem';
+      div.style.fontSize= '20px'
+      div.style.width= '50.3%'
+      div.style.margin = 'auto'
+      div.style.display = 'grid'
+      div.style.marginBottom = '-3rem'
+      div.style.marginTop= '20px'
+
+showcase.insertBefore(div,parent)
+
+      setTimeout(() => {
+        div.remove();
+        
+      }, 3000);
+    }
+
+//create Fetch function
+
+
+
+function Get(){
+
+  fetch(`https://yts.mx/api/v2/list_movies.json?${search.value} quality=3D&sort=seeds&limit=50`)
+.then(res=> res.json())
+.then(data=>  data.data.movies.map(all=>{
+
+  
+
+  results.innerHTML += `<div onclick="show('${all.title}', '${all.description_full}', '${all.medium_cover_image}')"  class="row">
+    <div >
+      <div class="card">
+        <div class="card-image">
+          <img src="${all.large_cover_image}">
+          
+        </div>
+       
+      </div>
+    </div>
+  </div>  `
+
+  
+})).catch(err=> { 
+  if(err){
+    var h = document.getElementById('h4');
+    h.className = 'red-text center-align'
+    h.style.padding = '3 rem'
+    h.innerHTML = 'No internet connection, try again!'
+
+  
+  }
+}
+
+)
+
+
+}
+//create load function
+function load(){
+  var lo = document.createElement('div');
+   lo.innerHTML = ` <div style="margin: auto; margin-bottom:-2.2rem; display: grid;" class="preloader-wrapper big active ">
+    <div class="spinner-layer spinner-green-only">
+      <div class="circle-clipper left">
+        <div class="circle container"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+ 
+`
+lo.style.marginTop='1rem'
+ 
+var body= document.querySelector('body');
+  showcase.insertBefore(lo, parent);
+  
+
+  setTimeout(() => {
+  lo.remove();
+  }, 5000);
+
+}
+
+
+//create click event for infor
+
+function show(ti,des, img){
+  
+
+  results.remove();
+
+  load();
+  var h = document.getElementById('h4');
+  search.remove();
+  btn.remove();
+  var each = document.getElementById('each');
+  h.innerHTML= ti
+  
+
+  each.innerHTML = ` <div style="padding:3rem; " class="card small">
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator responsive-img" src="${img}">
+    </div>
+    <div class="card-content">
+      <span class="card-title  activator grey-text text-darken-4"><i class="material-icons right">Read</i></span>
+      <p><a href="results.html">return</a></p>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">${ti}<i class="material-icons right">close</i></span>
+      <p>${des}</p>
+      <img class="responsive-img" src="${img}">
+    </div>
+  </div>
+            
+    `
+ alert('If movie does not display information, try again later!')
+      
+
+  
+  }
+
+  function disableScroll() { 
+    // Get the current page scroll position 
+   // scrollTop = window.pageYOffset || document.documentElement.scrollTop; 
+    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft, 
+  
+        // if any scroll is attempted, set this to the previous value 
+        window.onscroll = function() { 
+            window.scrollTo(scrollLeft); 
+        }; 
+} 
+
+    </script>
+    </body>
+  </html>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
